@@ -17,7 +17,8 @@ syslog_server = raw_input("input syslog ip address: ")
 def controller_syslog(controllerid):
     header={"Content-type":"application/xml"}
     url='''https://%s/api/2.0/vdn/controller/%s/syslog''' %(nsxmgr,controllerid)
-    # The port 514 and udp type is hard code in this script for easy use. 
+    # The port 514 and udp type is hard code in this script for easy use. the case here is to use log insight
+    # as the log server, the available option on log insight is tcp port 514/1514, udp 514
     body = """<controllerSyslogServer>
     <syslogServer>%s</syslogServer>
     <port>514</port>
