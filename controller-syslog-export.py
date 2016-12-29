@@ -30,19 +30,19 @@ def controller_syslog(controllerid):
     if conn.status_code == 200:
         print "\n"
         print "*" * 100	
-        print " the api call is successful"
+        print " the api call is successful  " + str(controllerid)
         print "*" * 100
         print "\n"
     elif conn.status_code == 500:
         print "\n"
         print "*" * 100
-        print " the configuration is probably done before, check body return"
+        print str(controllerid)+" configuration is probably done before, check body return"
         print "*" * 100
         print "\n"
     else:
         print "\n"
         print "*" * 100    
-        print "api call is failed"
+        print "api call is failed  " +str(controllerid)
         print "*" * 100
         print "\n"
 
@@ -51,14 +51,14 @@ def controller_syslog(controllerid):
     if body.find(syslog_server) != -1:
         print "\n"
         print "*" * 100    
-        print "the configuration is done, the body return is "
+        print str(controllerid)+ " configuration is done, the body return is "
         print body_return
         print "*" * 100
         print "\n"
     else:
         print "\n"
         print "*" * 100
-        print "configuration is not successful"
+        print str(controllerid)+ " configuration is not successful"
         print "*" * 100
         print "\n"
 
