@@ -1,6 +1,7 @@
 
 
 import requests,time,getpass
+requests.packages.urllib3.disable_warnings()
 
 print " This script is to configure syslog exporter on nsx controller"
 
