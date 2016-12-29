@@ -8,9 +8,9 @@ print " This script is to configure syslog exporter on nsx controller"
 nsxmgr = raw_input("input nsx manager ip address: ")
 nsx_username = raw_input("input nsx manager username: ")
 nsx_password = getpass.getpass(prompt="input your password: ")
-controller_id_1 = raw_input("input the 1st controller  which you need to configure: ")
-controller_id_2 = raw_input("input the 2nd controller  which you need to configure: ")
-controller_id_3 = raw_input("input the 3rd controller  which you need to configure: ")
+controller_id_1 = raw_input("input the 1st controller id which you need to configure: ")
+controller_id_2 = raw_input("input the 2nd controller id which you need to configure: ")
+controller_id_3 = raw_input("input the 3rd controller id which you need to configure: ")
 syslog_server = raw_input("input syslog ip address: ")
 
 def controller_syslog(controllerid):
