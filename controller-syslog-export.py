@@ -1,4 +1,5 @@
-
+# the script is to configure syslog server for nsx controller. The function is not provided on UI currently. 
+# the script is testing under nsx-vsphere 6.2.4
 
 import requests,time,getpass
 requests.packages.urllib3.disable_warnings()
