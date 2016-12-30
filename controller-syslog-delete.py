@@ -24,12 +24,6 @@ def controller_syslog(controllerid):
         print " the api call is successful  " + str(controllerid)
         print "*" * 100
         print "\n"
-    elif conn.status_code == 500:
-        print "\n"
-        print "*" * 100
-        print str(controllerid)+" configuration is probably done before, check body return"
-        print "*" * 100
-        print "\n"
     else:
         print "\n"
         print "*" * 100    
