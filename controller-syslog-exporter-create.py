@@ -1,18 +1,31 @@
 # the script is to configure syslog server for nsx controller. The function is not provided on UI currently. 
 # the script is testing under nsx-vsphere 6.2.4
 
-import requests,time,getpass
+import requests,time,getpass,re,xml.dom.minidom
 requests.packages.urllib3.disable_warnings()
 
 print " This script is to configure syslog exporter on nsx controller"
+print " Input nsx connectivity information: "
 
 nsxmgr = raw_input("input nsx manager ip address: ")
 nsx_username = raw_input("input nsx manager username: ")
 nsx_password = getpass.getpass(prompt="input your password: ")
-controller_id_1 = raw_input("input the 1st controller id which you need to configure: ")
-controller_id_2 = raw_input("input the 2nd controller id which you need to configure: ")
-controller_id_3 = raw_input("input the 3rd controller id which you need to configure: ")
-syslog_server = raw_input("input syslog ip address: ")
+
+def controller_list():
+    url="https://"+str(nsxmgr)+"/api/2.0/vdn/controller"
+    connl=requests.get(url,verify=False,auth=(nsx_username,nsx_password))
+    content=connl.text
+    par=xml.dom.minidom.parseString(content)
+    form=par.toprettyxml()
+    result=re.findall("<id>controller.*</id>",form)
+    print "\n"	
+    print "*" *100
+    print "the controller id is below: "
+    print result[0]
+    print result[1]
+    print result[2]
+    print "*" *100
+    print "\n"
 
 def controller_syslog(controllerid):
     header={"Content-type":"application/xml"}
@@ -26,7 +39,7 @@ def controller_syslog(controllerid):
     <level>INFO</level>
     </controllerSyslogServer>
     """ %syslog_server
-
+    
     conn=requests.post(url,verify=False,headers=header,auth=(nsx_username,nsx_password),data=body)
     print conn.status_code
     if conn.status_code == 200:
@@ -63,6 +76,14 @@ def controller_syslog(controllerid):
         print str(controllerid)+ " configuration is not successful"
         print "*" * 100
         print "\n"
+
+print "list your courrent controller id info, the default is 3 controller nodes: "
+controller_list()
+print "\n"
+controller_id_1 = raw_input("input the 1st controller id which you need to configure: ")
+controller_id_2 = raw_input("input the 2nd controller id which you need to configure: ")
+controller_id_3 = raw_input("input the 3rd controller id which you need to configure: ")
+syslog_server = raw_input("input syslog ip address: ")
 
 controller_syslog(controller_id_1)
 time.sleep(5)
