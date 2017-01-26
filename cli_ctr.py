@@ -1,6 +1,6 @@
 # The author is Rick Chen , Sr.Solution Architect of VMware
-# The Script is to list/configure/delete controller syslog server with CLI like mode 
-# The usage description has to be on top of all lines 
+# The Script is for nsx vsphere platform and list/configure/delete controller syslog server with CLI mode user experience 
+# The usage is to create the command line by docopt module, it will be have dependecne requriement to run this script
 '''Usage:
     clictr.py list -vsmip <nsxmgr_ip> -vsmuser <nsx_username> -vsmpass <nsx_password>  
     clictr.py syslogset -vsmip <nsxmgr_ip> -vsmuser <nsx_username> -vsmpass <nsx_password> -id <ctr_id> -logserver <syslog_ip>
