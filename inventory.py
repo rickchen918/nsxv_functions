@@ -100,20 +100,25 @@ def esg_info():
         url="https://"+nsxmgr+"/api/4.0/edges/%s" %id
         conn=requests.get(url,auth=(nsx_username,nsx_password),verify=False)
         output=conn.text
+#	print output
         print "*" * 100
 	print "Edge Interface Connectivity"
         print "*" * 100
         root=ET.fromstring(output)
-	for name in root.findall('name'):
-	    esg_name=name.text
-	    for id in root.findall('id'):
-                esg_id=id.text 
-		for vnic in root.iter('vnic'):
-		    for label in vnic.findall('label'):
-			vic=label.text
- 		        for pg in vnic.findall('portgroupId'):
-			    pgroup=pg.text
-          	            print esg_name,"|",esg_id,"|",vic,"|",pgroup
-                print "*" * 100
+	for edge in root.findall('id'):
+	    eid=edge.text
+	    for status in root.findall('status'):
+		estatus=status.text
+		for vnics in root.iter('vnics'):
+		    for vnic in vnics:
+			for label in vnic.findall('label'):
+			    elabel=label.text
+			    for pg in vnic.findall('portgroupId'):
+				epg=pg.text
+			        for addrs in vnic:
+				    for addr in addrs:
+				        for ip in addr.findall('primaryAddress'):
+					    eip=ip.text
+		            		    print eid,"|",estatus,"|",elabel,"|",epg,"|",eip
 
 esg_info()
