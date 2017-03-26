@@ -56,8 +56,7 @@ def host_healthy():
         print "*" * 100
         print "The %s health status" %health +str("\n") + output
 
-# This function causes longer waiting for health status collectiong, we may use it for health collection purpose.
-#host_healthy()
+host_healthy()
 
 def list_lsw():
     url="https://"+nsxmgr+"/api/1.0/nsx/cli?action=execute"
@@ -101,25 +100,25 @@ def esg_info():
         url="https://"+nsxmgr+"/api/4.0/edges/%s" %id
         conn=requests.get(url,auth=(nsx_username,nsx_password),verify=False)
         output=conn.text
+#	print output
+        print "*" * 100
+	print "Edge Interface Connectivity"
+        print "*" * 100
         root=ET.fromstring(output)
-	for edge in root.findall('.'):
-	    eid=edge.find('id').text
-	    ename=edge.find('name').text
-            print "*" * 100
-            print "Edge Info: %s " %ename
-            print "*" * 100
-            print 'ESG-ID ','|','VIC ','|','PG-Name','|','Link-Type','|','Conn_Stat','|','PG-ID','|','PG-Name'
-	    for vnic in root.findall('./vnics/vnic'):
-		enic=vnic.find('label').text
-		evname=vnic.find('name').text
-		etype=vnic.find('type').text
-		eisConnected=vnic.find('isConnected').text
-		try:
-	            eportgroup=vnic.find('portgroupId').text
-		    eportgroupname=vnic.find('portgroupName').text
-		except AttributeError:
-		    eportgroup="None"
-		    eportgroupname="None"
-		print eid,"  |",enic,'|',evname,'|',etype,'|',eisConnected,'|',eportgroup,'|',eportgroupname
+	for edge in root.findall('id'):
+	    eid=edge.text
+	    for status in root.findall('status'):
+		estatus=status.text
+		for vnics in root.iter('vnics'):
+		    for vnic in vnics:
+			for label in vnic.findall('label'):
+			    elabel=label.text
+			    for pg in vnic.findall('portgroupId'):
+				epg=pg.text
+			        for addrs in vnic:
+				    for addr in addrs:
+				        for ip in addr.findall('primaryAddress'):
+					    eip=ip.text
+		            		    print eid,"|",estatus,"|",elabel,"|",epg,"|",eip
 
 esg_info()
